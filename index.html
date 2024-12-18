@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>60 Minute Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent;
+            cursor: pointer;
+        }
+
+        #timer {
+            font-size: 48px;
+            font-family: 'Arial', sans-serif;
+            color: #FFFFFF;
+            text-shadow: 0 0 10px #FF0000, 0 0 20px #FF0000, 0 0 30px #FF0000;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="timer">60:00</div>
+
+    <audio id="alarm-sound" src="Alarm Clock Sound 3min.mp3" preload="auto"></audio>
+
+    <script>
+        let timerDisplay = document.getElementById('timer');
+        let alarmSound = document.getElementById('alarm-sound');
+        let timeLeft = 3600; // 60 minutes = 3600 seconds
+
+        window.onload = () => {
+            startTimer(); // Start the timer when the page loads
+        };
+
+        function startTimer() {
+            let countdown = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay(timeLeft);
+                } else {
+                    clearInterval(countdown);
+                    playAlarm();
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(seconds) {
+            let minutes = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function playAlarm() {
+            alarmSound.play().catch(error => {
+                console.error('Audio play failed:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
